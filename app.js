@@ -11,6 +11,9 @@ document.getElementById("workoutForm").addEventListener("submit", function(event
 
   // Calculate total weight
   const totalWeight = (plateWeight * 2) + parseFloat(barbellWeight);
+  
+  // Display total weight
+  document.getElementById("totalWeightDisplay").textContent = `Total Weight: ${totalWeight} kg`;
 
   // Create a new list item for the workout
   const li = document.createElement("li");
