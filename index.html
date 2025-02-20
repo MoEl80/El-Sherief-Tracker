@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lift Tracker</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
   <header>
@@ -22,12 +22,20 @@
         <input type="date" id="date" required />
         <button type="submit">Add Workout</button>
       </form>
+
+      <!-- THIS is the paragraph that displays the total weight. -->
+      <p id="totalWeightDisplay" style="font-size: 1.2em; color: blue; margin-top: 1em;">
+        Total Weight: 0 kg
+      </p>
     </section>
+
     <section id="workout-history">
       <h2>Workout History</h2>
       <ul id="historyList"></ul>
     </section>
   </main>
+
+  <!-- Make sure the path here is correct and that app.js is in the same folder as index.html -->
   <script src="app.js"></script>
 </body>
 </html>
