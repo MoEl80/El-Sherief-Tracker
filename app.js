@@ -1,19 +1,20 @@
 document.getElementById('workoutForm').addEventListener('submit', function(event) {
   event.preventDefault();
-
+  
   // Get form values
   const exercise = document.getElementById('exercise').value;
   const sets = document.getElementById('sets').value;
   const reps = document.getElementById('reps').value;
   const weight = document.getElementById('weight').value;
-  
-  // Create a new list item with the workout details
-  const listItem = document.createElement('li');
-  listItem.textContent = `${exercise} - ${sets} sets x ${reps} reps at ${weight} lbs`;
+  const date = document.getElementById('date').value;
 
-  // Append the new workout to the history list
-  document.getElementById('historyList').appendChild(listItem);
+  // Create a new list item for the workout
+  const li = document.createElement('li');
+  li.textContent = `${date} - ${exercise}: ${sets} sets x ${reps} reps @ ${weight} kg`;
 
-  // Clear the form inputs for the next entry
-  event.target.reset();
+  // Append the new list item to the history list
+  document.getElementById('historyList').appendChild(li);
+
+  // Clear the form
+  document.getElementById('workoutForm').reset();
 });
