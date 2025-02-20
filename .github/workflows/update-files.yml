@@ -1,0 +1,86 @@
+name: Update Files
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Update files
+        run: |
+          echo 'Updating index.html and app.js'
+          echo '<!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title>Lift Tracker</title>
+            <link rel="stylesheet" href="styles.css" />
+          </head>
+          <body>
+            <header>
+              <h1>Lift Tracker</h1>
+            </header>
+            <main>
+              <section id="log-workout">
+                <h2>Log Your Workout</h2>
+                <form id="workoutForm">
+                  <input type="text" id="exercise" placeholder="Exercise Name" required />
+                  <input type="number" id="sets" placeholder="Sets" required />
+                  <input type="number" id="reps" placeholder="Reps" required />
+                  <input type="number" id="barbellWeight" placeholder="Barbell Weight (kg)" required />
+                  <input type="number" id="plateWeight" placeholder="Plate Weight (kg)" required />
+                  <input type="date" id="date" required />
+                  <button type="submit">Add Workout</button>
+                </form>
+              </section>
+              <section id="workout-history">
+                <h2>Workout History</h2>
+                <ul id="historyList"></ul>
+              </section>
+            </main>
+            <script src="app.js"></script>
+          </body>
+          </html>' > index.html
+          echo 'document.getElementById("workoutForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            // Get form values
+            const exercise = document.getElementById("exercise").value;
+            const sets = document.getElementById("sets").value;
+            const reps = document.getElementById("reps").value;
+            const barbellWeight = document.getElementById("barbellWeight").value;
+            const plateWeight = document.getElementById("plateWeight").value;
+            const date = document.getElementById("date").value;
+          
+            // Calculate total weight
+            const totalWeight = (plateWeight * 2) + parseFloat(barbellWeight);
+          
+            // Create a new list item for the workout
+            const li = document.createElement("li");
+            li.textContent = `${date} - ${exercise}: ${sets} sets x ${reps} reps @ Total Weight: ${totalWeight} kg`;
+          
+            // Append the new list item to the history list
+            document.getElementById("historyList").appendChild(li);
+          
+            // Clear the form
+            document.getElementById("workoutForm").reset();
+          });' > app.js
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add index.html app.js
+          git commit -m 'Update index.html and app.js'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
