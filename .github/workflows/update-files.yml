@@ -3,8 +3,10 @@ name: Update Files
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [ main ]
+
+permissions:
+  contents: write
 
 jobs:
   update-files:
@@ -18,11 +20,8 @@ jobs:
 
       - name: Update files
         run: |
-          echo "Updating index.html and app.js"
-
-          # Write HTML file using a HEREDOC
-          cat <<'EOF' > index.html
-          <!DOCTYPE html>
+          echo 'Updating index.html and app.js'
+          echo '<!DOCTYPE html>
           <html lang="en">
           <head>
             <meta charset="UTF-8" />
@@ -54,12 +53,8 @@ jobs:
             </main>
             <script src="app.js"></script>
           </body>
-          </html>
-          EOF
-
-          # Write JavaScript file using a HEREDOC
-          cat <<'EOF' > app.js
-          document.getElementById("workoutForm").addEventListener("submit", function(event) {
+          </html>' > index.html
+          echo 'document.getElementById("workoutForm").addEventListener("submit", function(event) {
             event.preventDefault();
             
             // Get form values
@@ -82,15 +77,14 @@ jobs:
           
             // Clear the form
             document.getElementById("workoutForm").reset();
-          });
-          EOF
+          });' > app.js
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
           git add index.html app.js
-          git commit -m "Update index.html and app.js"
+          git commit -m 'Update index.html and app.js'
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
